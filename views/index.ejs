@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #333; /* Dark mode background */
+      color: white; /* Dark mode text color */
+    }
+
+    #todo-container {
+      width: 40%;
+      margin: auto;
+      background-color: #fff; /* Todo list box background color */
+      border: 2px solid #333; /* 2px border around the box */
+      padding: 20px;
+      border-radius: 8px; /* Optional: Add rounded corners */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: Add box shadow for depth */
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      margin-right: 8px;
+      width: 60%;
+    }
+
+    button {
+        margin: 0px 10px;
+      padding: 8px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      color: black;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .side{
+        display: flex;
+    }
+
+    li s {
+      color: #888;
+    }
+
+    form button[type="submit"] {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    form button[type="submit"]:hover {
+      background-color: #45a049
+    }
+    .input-form{
+      display: flex;
+      justify-content: center;
+      
+    }
+  </style>
+</head>
+<body>
+  <div id="todo-container">
+    <h1>Todo App</h1>
+    <form action="/add" method="post" class="input-form">
+      <input type="text" name="data" required>
+      <button type="submit">Add Todo</button>
+    </form>
+
+    <h2>Active Todos</h2>
+    <ul>
+      <% todo.forEach(todoItem => { %>
+        <% if (!todoItem.completed) { %>
+          <li>
+            <%= todoItem.task %>
+            <div class="side">
+            <form action="/complete/<%= todoItem._id %>" method="post">
+              <button type="submit">Complete</button>
+            </form>
+            <form action="/delete/<%= todoItem._id %>" method="post">
+              <button type="submit">Delete</button>
+            </form>
+        </div>
+
+          </li>
+        <% } %>
+      <% }); %>
+    </ul>
+
+    <h2 style="color: #888;">Completed Todos</h2>
+    <ul>
+      <% todo.forEach(todoItem => { %>
+        <% if (todoItem.completed) { %>
+          <li>
+            <s><%= todoItem.task %></s>
+            <form action="/delete/<%= todoItem._id %>" method="post">
+              <button type="submit">Delete</button>
+            </form>
+          </li>
+        <% } %>
+      <% }); %>
+    </ul>
+  </div>
+</body>
+</html>
